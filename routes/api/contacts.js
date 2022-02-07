@@ -7,16 +7,22 @@ const { contacts: ctrl } = require("../../controllers");
 
 router.get("/", auth, ctrlWrapper(ctrl.getAllContacts));
 
-router.get("/:contactId", ctrlWrapper(ctrl.getContactById));
+router.get("/:contactId", auth, ctrlWrapper(ctrl.getContactById));
 
 router.post("/", auth, validation(joiSchema), ctrlWrapper(ctrl.postContact));
 
-router.delete("/:contactId", ctrlWrapper(ctrl.deleteContact));
+router.delete("/:contactId", auth, ctrlWrapper(ctrl.deleteContact));
 
-router.put("/:contactId", validation(joiSchema), ctrlWrapper(ctrl.putContact));
+router.put(
+  "/:contactId",
+  auth,
+  validation(joiSchema),
+  ctrlWrapper(ctrl.putContact)
+);
 
 router.patch(
   "/:contactId/favorite",
+  auth,
   validation(favoriteJoiSchema),
   ctrlWrapper(ctrl.updateFavorite)
 );
